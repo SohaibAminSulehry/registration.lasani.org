@@ -967,7 +967,7 @@ UApSlAKUpQClKUApSlAKUpQClKUApSlAKUpQClKUApSlAKUpQClKUApSlAKUpQClKUB//9k=" alt="K
           <select id="f_profession">
             <option value="">Select profession…</option>
             <option>Accountant</option>
-            <option>Business Man</option>
+            
             <option>Doctor</option>
             <option>Farmer</option>
             <option>Information Technology</option>
@@ -1034,453 +1034,284 @@ UApSlAKUpQClKUApSlAKUpQClKUApSlAKUpQClKUApSlAKUpQClKUApSlAKUpQClKUB//9k=" alt="K
 </div>
 
 <script>
-const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwnHlGLHjSLWc58S2H_BJoQQfe0UvX4nGHwCD6oflcZouvA-e2GPeTet_6kNUlJpZcSHQ/exec";
-
-
-
-
-function updateTehsils(district) {
-  const sel = document.getElementById('f_tehsil');
-  sel.innerHTML = '<option value="">Select tehsil…</option>';
-  if (!district || !TEHSILS[district]) return;
-  TEHSILS[district].forEach(t => {
-    if (!t) return;
-    const opt = document.createElement('option');
-    opt.value = t; opt.textContent = t;
-    sel.appendChild(opt);
-  });
-}
+const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwkOuE7gnGF2o0W5JMbQ1RlT8A6csMxQw9aiUVlL9sDjUvWQvcywvQ9Xv-9O4i1kaaaGQ/exec";
 
 const PROVINCES = {
-    "Punjab":["","Attock","Bahawalnagar","Bahawalpur","Bhakkar","Chakwal","Chiniot","Dera Ghazi Khan","Faisalabad","Gujranwala","Gujrat","Hafizabad","Jhang","Jhelum","Kasur","Khanewal","Khushab","Lahore","Layyah","Lodhran","Mandi Bahauddin","Mianwali","Multan","Muzaffargarh","Nankana Sahib","Narowal","Okara","Pakpattan","Rahim Yar Khan","Rajanpur","Rawalpindi","Sahiwal","Sargodha","Sheikhupura","Sialkot","Toba Tek Singh","Vehari"],
-    "Sindh":["","Badin","Dadu","Ghotki","Hyderabad","Jacobabad","Jamshoro","Karachi Central","Karachi East","Karachi Korangi","Karachi Malir","Karachi South","Karachi West","Kashmore","Khairpur","Larkana","Matiari","Mirpur Khas","Naushahro Feroze","Qambar Shahdadkot","Sanghar","Shaheed Benazirabad","Shikarpur","Sujawal","Sukkur","Tando Allah Yar","Tando Muhammad Khan","Tharparkar","Thatta","Umerkot"],
-    "Khyber Pakhtunkhwa":["","Abbottabad","Bajaur","Bannu","Battagram","Buner","Charsadda","Chitral","Dera Ismail Khan","Hangu","Haripur","Karak","Khyber","Kohat","Kohistan Lower","Kohistan Upper","Kolai Pallas","Kurram","Lakki Marwat","Lower Dir","Malakand","Mansehra","Mardan","Mohmand","North Waziristan","Nowshera","Orakzai","Peshawar","Shangla","South Waziristan","Swabi","Swat","Tank","Torghar","Upper Dir"],
-    "Balochistan":["","Awaran","Barkhan","Chagai","Dera Bugti","Gwadar","Harnai","Jafarabad","Jhal Magsi","Kachhi","Kalat","Kech","Kharan","Khuzdar","Killa Abdullah","Killa Saifullah","Kohlu","Lasbela","Lehri","Loralai","Mastung","Musakhel","Nasirabad","Nushki","Panjgur","Pishin","Quetta","Sherani","Sibi","Sohbatpur","Washuk","Zhob","Ziarat"],
-    "Azad Jammu & Kashmir":["","Bagh","Bhimber","Hattian Bala","Haveli","Kotli","Mirpur","Muzaffarabad","Neelum","Poonch","Rawlakot","Sudhnoti"],
-    "Gilgit Baltistan":["","Astore","Diamer","Ghanche","Ghizer","Gilgit","Hunza","Nagar","Shigar","Skardu"],
-    "Islamabad Capital Territory":["","Islamabad"]
-  };
+  "Punjab":["Attock","Bahawalnagar","Bahawalpur","Bhakkar","Chakwal","Chiniot","Dera Ghazi Khan","Faisalabad","Gujranwala","Gujrat","Hafizabad","Jhang","Jhelum","Kasur","Khanewal","Khushab","Lahore","Layyah","Lodhran","Mandi Bahauddin","Mianwali","Multan","Muzaffargarh","Nankana Sahib","Narowal","Okara","Pakpattan","Rahim Yar Khan","Rajanpur","Rawalpindi","Sahiwal","Sargodha","Sheikhupura","Sialkot","Toba Tek Singh","Vehari"],
+  "Sindh":["Badin","Dadu","Ghotki","Hyderabad","Jacobabad","Jamshoro","Karachi Central","Karachi East","Karachi Korangi","Karachi Malir","Karachi South","Karachi West","Kashmore","Khairpur","Larkana","Matiari","Mirpur Khas","Naushahro Feroze","Qambar Shahdadkot","Sanghar","Shaheed Benazirabad","Shikarpur","Sujawal","Sukkur","Tando Allah Yar","Tando Muhammad Khan","Tharparkar","Thatta","Umerkot"],
+  "Khyber Pakhtunkhwa":["Abbottabad","Bajaur","Bannu","Battagram","Buner","Charsadda","Chitral","Dera Ismail Khan","Hangu","Haripur","Karak","Khyber","Kohat","Kohistan Lower","Kohistan Upper","Kolai Pallas","Kurram","Lakki Marwat","Lower Dir","Malakand","Mansehra","Mardan","Mohmand","North Waziristan","Nowshera","Orakzai","Peshawar","Shangla","South Waziristan","Swabi","Swat","Tank","Torghar","Upper Dir"],
+  "Balochistan":["Awaran","Barkhan","Chagai","Dera Bugti","Gwadar","Harnai","Jafarabad","Jhal Magsi","Kachhi","Kalat","Kech","Kharan","Khuzdar","Killa Abdullah","Killa Saifullah","Kohlu","Lasbela","Lehri","Loralai","Mastung","Musakhel","Nasirabad","Nushki","Panjgur","Pishin","Quetta","Sherani","Sibi","Sohbatpur","Washuk","Zhob","Ziarat"],
+  "Azad Jammu & Kashmir":["Bagh","Bhimber","Hattian Bala","Haveli","Kotli","Mirpur","Muzaffarabad","Neelum","Poonch","Rawlakot","Sudhnoti"],
+  "Gilgit Baltistan":["Astore","Diamer","Ghanche","Ghizer","Gilgit","Hunza","Nagar","Shigar","Skardu"],
+  "Islamabad Capital Territory":["Islamabad"]
+};
+
 const DISTRICTS = {
-    "Abbottabad":["","Abbottabad","Havelian","Lora","Nawanshehr"],
-    "Astore":["","Astore","Gurez"],
-    "Attock":["","Attock","Fateh Jang","Hazro","Jand","Pindi Gheb","Taxila"],
-    "Awaran":["","Awaran","Jhal Jhao","Mashkel"],
-    "Badin":["","Badin","Matli","Talhar","Tando Bago"],
-    "Bagh":["","Bagh","Dhirkot","Sudhnati"],
-    "Bahawalnagar":["","Bahawalnagar","Chishtian","Fort Abbas","Haroonabad","Minchinabad"],
-    "Bahawalpur":["","Ahmadpur East","Bahawalpur","Hasilpur","Khairpur Tamewali","Yazman"],
-    "Bajaur":["","Barang","Khar","Mamund","Nawagai","Salarzai","Utman Khel"],
-    "Bannu":["","Bannu","Domel","Haripur"],
-    "Barkhan":["","Barkhan","Rakhni"],
-    "Battagram":["","Allai","Battagram"],
-    "Bhakkar":["","Bhakkar","Darya Khan","Kallur Kot","Mankera"],
-    "Bhimber":["","Bhimber","Samahni"],
-    "Buner":["","Buner","Daggar","Gadezai","Mandanr","Sowari"],
-    "Chagai":["","Chagai","Dalbandin","Nok Kundi","Taftan"],
-    "Chakwal":["","Chakwal","Choa Saidan Shah","Kallar Kahar","Talagang"],
-    "Charsadda":["","Charsadda","Shabqadar","Tangi"],
-    "Chiniot":["","Bhowana","Chiniot","Lalian"],
-    "Chitral":["","Chitral","Drosh","Mastuj","Mulkho"],
-    "Dadu":["","Dadu","Johi","Khairpur Nathan Shah","Mehar","Sehwan"],
-    "Dera Bugti":["","Dera Bugti","Phelawagh","Sui"],
-    "Dera Ghazi Khan":["","Dera Ghazi Khan","Kot Chutta","Taunsa","Vaihari"],
-    "Dera Ismail Khan":["","Darazinda","Dera Ismail Khan","Kulachi","Paharpur","Prova"],
-    "Diamer":["","Chilas","Darel","Tangir"],
-    "Faisalabad":["","Chak Jhumra","Faisalabad City","Jaranwala","Lyallpur","Samundri","Tandlianwala"],
-    "Ghanche":["","Ghanche","Khaplu","Saltoro"],
-    "Ghizer":["","Ghizer","Gupis","Ishkoman","Punial"],
-    "Ghotki":["","Ghotki","Kandhkot","Kashmore","Mirpur Mathelo","Obaro","Ubauro"],
-    "Gilgit":["","Gilgit","Gupis","Nomal"],
-    "Gujranwala":["","Gujranwala","Kamoke","Khangah Dogran","Nowshera Virkan","Wazirabad"],
-    "Gujrat":["","Gujrat","Kharian","Sarai Alamgir"],
-    "Gwadar":["","Gwadar","Jiwani","Ormara","Pasni"],
-    "Hafizabad":["","Hafizabad","Pindi Bhattian","Sukheke"],
-    "Hangu":["","Hangu","Thall"],
-    "Haripur":["","Ghazi","Haripur","Khanpur"],
-    "Harnai":["","Harnai","Shahrig"],
-    "Hattian Bala":["","Hattian Bala","Leepa"],
-    "Haveli":["","Forward Kahuta","Haveli"],
-    "Hunza":["","Aliabad","Gojal","Hunza"],
-    "Hyderabad":["","Hyderabad","Latifabad","Qasimabad","Tando Jam"],
-    "Islamabad":["","Islamabad","Kahuta","Kotli Sattian","Rawat","Tarnol"],
-    "Jacobabad":["","Garhi Khairo","Jacobabad","Thul"],
-    "Jafarabad":["","Gandava","Jafarabad","Usta Muhammad"],
-    "Jamshoro":["","Jamshoro","Kotri","Manjhand","Sehwan","Thano Bula Khan"],
-    "Jhal Magsi":["","Jhal Magsi","Nindara"],
-    "Jhang":["","Ahmadpur Sial","Chiniot","Jhang","Shorkot"],
-    "Jhelum":["","Jhelum","Pind Dadan Khan","Sohawa"],
-    "Kachhi":["","Bolan","Dadhar","Sibi"],
-    "Kalat":["","Kalat","Mangochar","Surab"],
-    "Karachi Central":["","Karachi Central"],
-    "Karachi East":["","Karachi East"],
-    "Karachi Korangi":["","Karachi Korangi"],
-    "Karachi Malir":["","Karachi Malir"],
-    "Karachi South":["","Karachi South"],
-    "Karachi West":["","Karachi West"],
-    "Karak":["","Banda Daud Shah","Karak","Takhtbai"],
-    "Kashmore":["","Kashmore","Kandhkot","Tangwani"],
-    "Kasur":["","Chunian","Kasur","Kot Radha Kishan","Pattoki"],
-    "Kech":["","Buleda","Hoshab","Mand","Turbat"],
-    "Khairpur":["","Gambat","Khairpur","Kingri","Kot Diji","Mirwah","Nara","Sobhodero","Thari Mirwah"],
-    "Khanewal":["","Kabirwala","Khanewal","Mian Channu","Tulamba"],
-    "Kharan":["","Kharan","Nag","Washuk"],
-    "Khushab":["","Khushab","Noorpur","Quaidabad","Talagang"],
-    "Khuzdar":["","Khuzdar","Naal","Ornach","Zehri"],
-    "Khyber":["","Bara","Jamrud","Landi Kotal"],
-    "Killa Abdullah":["","Chaman","Gulistan","Killa Abdullah"],
-    "Killa Saifullah":["","Killa Saifullah","Muslim Bagh","Toba Kakari"],
-    "Kohat":["","Kohat","Lachi","Tall"],
-    "Kohistan Lower":["","Allai","Bankot","Kolai"],
-    "Kohistan Upper":["","Dubair","Kandia","Patan"],
-    "Kohlu":["","Kohlu","Maiwand","Tamboo"],
-    "Kolai Pallas":["","Kolai","Pallas"],
-    "Kotli":["","Charhoi","Kotli","Sehnsa","Tandar"],
-    "Kurram":["","Parachinar","Sadda","Tall"],
-    "Lahore":["","Lahore City","Lahore Cantt","Model Town","Raiwind","Shalimar"],
-    "Lakki Marwat":["","Lakki Marwat","Serai Naurang"],
-    "Larkana":["","Dokri","Kamber","Larkana","Ratodero"],
-    "Lasbela":["","Bela","Hub","Lasbela","Liari","Uthal","Winder"],
-    "Layyah":["","Chaubara","Karor Lal Esan","Layyah"],
-    "Lehri":["","Lehri","Sangan"],
-    "Lodhran":["","Dunyapur","Kehror Pakka","Lodhran"],
-    "Loralai":["","Bori","Duki","Loralai","Mekhtar"],
-    "Lower Dir":["","Adenzai","Balambat","Dir","Lal Qilla","Munda","Timergara"],
-    "Malakand":["","Bat Khela","Malakand","Thana"],
-    "Mandi Bahauddin":["","Malikwal","Mandi Bahauddin","Phalia"],
-    "Mansehra":["","Balakot","Mansehra","Oghi"],
-    "Mardan":["","Katlang","Mardan","Takhtbai"],
-    "Mastung":["","Dasht","Karigh","Mastung"],
-    "Matiari":["","Hala","Matiari","Saeedabad"],
-    "Mianwali":["","Esa Khel","Mianwali","Piplan"],
-    "Mirpur":["","Dadyal","Mirpur","Pallandri"],
-    "Mirpur Khas":["","Digri","Kot Ghulam Muhammad","Mirpur Khas","Mirpur Sakro"],
-    "Mohmand":["","Ambar","Ekka Ghund","Ghalanai","Safi","Prang Ghar"],
-    "Multan":["","Jalalpur Pirwala","Multan City","Multan Saddar","Shujabad"],
-    "Musakhel":["","Kingri","Musakhel","Thal"],
-    "Muzaffarabad":["","Muzaffarabad","Hattian","Neelum"],
-    "Muzaffargarh":["","Ali Pur","Jatoi","Kot Addu","Muzaffargarh"],
-    "Nagar":["","Nagar","Hispar"],
-    "Nankana Sahib":["","Nankana Sahib","Sangla Hill","Shahkot"],
-    "Narowal":["","Narowal","Shakargarh","Zafarwal"],
-    "Nasirabad":["","Chattar","Dera Murad Jamali","Tamboo"],
-    "Naushahro Feroze":["","Bhiria","Moro","Naushahro Feroze","Kandiaro"],
-    "Neelum":["","Kel","Neelum","Sharda"],
-    "North Waziristan":["","Miranshah","Mir Ali","Razmak","Spinwam"],
-    "Nowshera":["","Jehangira","Nowshera","Pabbi"],
-    "Nushki":["","Nushki"],
-    "Okara":["","Depalpur","Okara","Renala Khurd"],
-    "Orakzai":["","Central Orakzai","Lower Orakzai","Upper Orakzai"],
-    "Pakpattan":["","Arifwala","Pakpattan"],
-    "Panjgur":["","Gichk","Panjgur","Parag"],
-    "Peshawar":["","Peshawar","Chamkani","Matani","Regi"],
-    "Pishin":["","Haramzai","Karezat","Pishin","Shahwani"],
-    "Poonch":["","Haveli","Poonch","Rawalakot"],
-    "Qambar Shahdadkot":["","Qambar","Shahdadkot","Warah"],
-    "Quetta":["","Quetta","Chiltan","Hazara Town","Kuchlak","Samungli","Sariab"],
-    "Rahim Yar Khan":["","Khan Pur","Liaquatpur","Rahimyar Khan","Sadiqabad"],
-    "Rajanpur":["","Jampur","Kot Mithan","Rajanpur","Rojhan"],
-    "Rawalpindi":["","Gujar Khan","Kahuta","Kallar Syedan","Murree","Rawalpindi","Taxila"],
-    "Rawlakot":["","Rawalakot","Poonch"],
-    "Sahiwal":["","Chichawatni","Sahiwal"],
-    "Sanghar":["","Jam Nawaz Ali","Khipro","Sanghar","Shahdadpur","Sinjhoro"],
-    "Sargodha":["","Bhalwal","Kot Momin","Sahiwal","Sargodha","Shah Pur","Silanwali"],
-    "Shaheed Benazirabad":["","Daulatpur","Nawabshah","Sakrand"],
-    "Shangla":["","Alpuri","Bisham","Chakesar","Puran"],
-    "Sheikhupura":["","Ferozewala","Muridke","Sheikhupura","Safdarabad"],
-    "Sherani":["","Sherani","Zhob"],
-    "Shigar":["","Shigar","Roundu"],
-    "Shikarpur":["","Garhi Yasin","Lakhi","Shikarpur"],
-    "Sialkot":["","Daska","Pasrur","Sambrial","Sialkot"],
-    "Sibi":["","Lehri","Sibi","Sangan"],
-    "Skardu":["","Kharmang","Rondu","Skardu","Shigar"],
-    "Sohbatpur":["","Jaffarabad","Sohbatpur"],
-    "South Waziristan":["","Jandola","Ladha","Makin","Wana"],
-    "Sudhnoti":["","Plandri","Sudhnoti"],
-    "Sujawal":["","Jati","Mirpur Bathoro","Sujawal","Shah Bandar"],
-    "Sukkur":["","Rohri","Saleh Pat","Sukkur"],
-    "Swabi":["","Razar","Swabi","Topi"],
-    "Swat":["","Bahrain","Barikot","Chakdara","Charbagh","Kabal","Khwazakhela","Matta","Mingora","Shamozai"],
-    "Tando Allah Yar":["","Chambar","Tando Allah Yar"],
-    "Tando Muhammad Khan":["","Bulri Shah Karim","Tando Muhammad Khan"],
-    "Tank":["","Tank"],
-    "Tharparkar":["","Chachro","Dahli","Diplo","Islamkot","Mithi","Nagarparkar"],
-    "Thatta":["","Ghorabari","Mirpur Sakro","Sujawal","Thatta"],
-    "Toba Tek Singh":["","Gojra","Kamalia","Pir Mahal","Toba Tek Singh"],
-    "Torghar":["","Torghar"],
-    "Umerkot":["","Pithoro","Samaro","Umerkot"],
-    "Upper Dir":["","Dir","Wari"],
-    "Vehari":["","Burewala","Mailsi","Vehari"],
-    "Washuk":["","Kharan","Nag","Washuk"],
-    "Zhob":["","Qamardin Karez","Sherani","Zhob"],
-    "Ziarat":["","Sanjawi","Ziarat"]
-  };
-const TEHSILS = {
-    "Abbottabad":["","Abbottabad","Havelian","Lora","Nawanshehr"],
-    "Astore":["","Astore","Gurez"],
-    "Attock":["","Attock","Fateh Jang","Hazro","Jand","Pindi Gheb","Taxila"],
-    "Awaran":["","Awaran","Jhal Jhao","Mashkel"],
-    "Badin":["","Badin","Matli","Talhar","Tando Bago"],
-    "Bagh":["","Bagh","Dhirkot","Sudhnati"],
-    "Bahawalnagar":["","Bahawalnagar","Chishtian","Fort Abbas","Haroonabad","Minchinabad"],
-    "Bahawalpur":["","Ahmadpur East","Bahawalpur","Hasilpur","Khairpur Tamewali","Yazman"],
-    "Bajaur":["","Barang","Khar","Mamund","Nawagai","Salarzai","Utman Khel"],
-    "Bannu":["","Bannu","Domel","Haripur"],
-    "Barkhan":["","Barkhan","Rakhni"],
-    "Battagram":["","Allai","Battagram"],
-    "Bhakkar":["","Bhakkar","Darya Khan","Kallur Kot","Mankera"],
-    "Bhimber":["","Bhimber","Samahni"],
-    "Buner":["","Buner","Daggar","Gadezai","Mandanr","Sowari"],
-    "Chagai":["","Chagai","Dalbandin","Nok Kundi","Taftan"],
-    "Chakwal":["","Chakwal","Choa Saidan Shah","Kallar Kahar","Talagang"],
-    "Charsadda":["","Charsadda","Shabqadar","Tangi"],
-    "Chiniot":["","Bhowana","Chiniot","Lalian"],
-    "Chitral":["","Chitral","Drosh","Mastuj","Mulkho"],
-    "Dadu":["","Dadu","Johi","Khairpur Nathan Shah","Mehar","Sehwan"],
-    "Dera Bugti":["","Dera Bugti","Phelawagh","Sui"],
-    "Dera Ghazi Khan":["","Dera Ghazi Khan","Kot Chutta","Taunsa","Vaihari"],
-    "Dera Ismail Khan":["","Darazinda","Dera Ismail Khan","Kulachi","Paharpur","Prova"],
-    "Diamer":["","Chilas","Darel","Tangir"],
-    "Faisalabad":["","Chak Jhumra","Faisalabad City","Jaranwala","Lyallpur","Samundri","Tandlianwala"],
-    "Ghanche":["","Ghanche","Khaplu","Saltoro"],
-    "Ghizer":["","Ghizer","Gupis","Ishkoman","Punial"],
-    "Ghotki":["","Ghotki","Kandhkot","Kashmore","Mirpur Mathelo","Obaro","Ubauro"],
-    "Gilgit":["","Gilgit","Gupis","Nomal"],
-    "Gujranwala":["","Gujranwala","Kamoke","Khangah Dogran","Nowshera Virkan","Wazirabad"],
-    "Gujrat":["","Gujrat","Kharian","Sarai Alamgir"],
-    "Gwadar":["","Gwadar","Jiwani","Ormara","Pasni"],
-    "Hafizabad":["","Hafizabad","Pindi Bhattian","Sukheke"],
-    "Hangu":["","Hangu","Thall"],
-    "Haripur":["","Ghazi","Haripur","Khanpur"],
-    "Harnai":["","Harnai","Shahrig"],
-    "Hattian Bala":["","Hattian Bala","Leepa"],
-    "Haveli":["","Forward Kahuta","Haveli"],
-    "Hunza":["","Aliabad","Gojal","Hunza"],
-    "Hyderabad":["","Hyderabad","Latifabad","Qasimabad","Tando Jam"],
-    "Islamabad":["","Islamabad","Kahuta","Kotli Sattian","Rawat","Tarnol"],
-    "Jacobabad":["","Garhi Khairo","Jacobabad","Thul"],
-    "Jafarabad":["","Gandava","Jafarabad","Usta Muhammad"],
-    "Jamshoro":["","Jamshoro","Kotri","Manjhand","Sehwan","Thano Bula Khan"],
-    "Jhal Magsi":["","Jhal Magsi","Nindara"],
-    "Jhang":["","Ahmadpur Sial","Chiniot","Jhang","Shorkot"],
-    "Jhelum":["","Jhelum","Pind Dadan Khan","Sohawa"],
-    "Kachhi":["","Bolan","Dadhar","Sibi"],
-    "Kalat":["","Kalat","Mangochar","Surab"],
-    "Karachi Central":["","Karachi Central"],
-    "Karachi East":["","Karachi East"],
-    "Karachi Korangi":["","Karachi Korangi"],
-    "Karachi Malir":["","Karachi Malir"],
-    "Karachi South":["","Karachi South"],
-    "Karachi West":["","Karachi West"],
-    "Karak":["","Banda Daud Shah","Karak","Takhtbai"],
-    "Kashmore":["","Kashmore","Kandhkot","Tangwani"],
-    "Kasur":["","Chunian","Kasur","Kot Radha Kishan","Pattoki"],
-    "Kech":["","Buleda","Hoshab","Mand","Turbat"],
-    "Khairpur":["","Gambat","Khairpur","Kingri","Kot Diji","Mirwah","Nara","Sobhodero","Thari Mirwah"],
-    "Khanewal":["","Kabirwala","Khanewal","Mian Channu","Tulamba"],
-    "Kharan":["","Kharan","Nag","Washuk"],
-    "Khushab":["","Khushab","Noorpur","Quaidabad","Talagang"],
-    "Khuzdar":["","Khuzdar","Naal","Ornach","Zehri"],
-    "Khyber":["","Bara","Jamrud","Landi Kotal"],
-    "Killa Abdullah":["","Chaman","Gulistan","Killa Abdullah"],
-    "Killa Saifullah":["","Killa Saifullah","Muslim Bagh","Toba Kakari"],
-    "Kohat":["","Kohat","Lachi","Tall"],
-    "Kohistan Lower":["","Allai","Bankot","Kolai"],
-    "Kohistan Upper":["","Dubair","Kandia","Patan"],
-    "Kohlu":["","Kohlu","Maiwand","Tamboo"],
-    "Kolai Pallas":["","Kolai","Pallas"],
-    "Kotli":["","Charhoi","Kotli","Sehnsa","Tandar"],
-    "Kurram":["","Parachinar","Sadda","Tall"],
-    "Lahore":["","Lahore City","Lahore Cantt","Model Town","Raiwind","Shalimar"],
-    "Lakki Marwat":["","Lakki Marwat","Serai Naurang"],
-    "Larkana":["","Dokri","Kamber","Larkana","Ratodero"],
-    "Lasbela":["","Bela","Hub","Lasbela","Liari","Uthal","Winder"],
-    "Layyah":["","Chaubara","Karor Lal Esan","Layyah"],
-    "Lehri":["","Lehri","Sangan"],
-    "Lodhran":["","Dunyapur","Kehror Pakka","Lodhran"],
-    "Loralai":["","Bori","Duki","Loralai","Mekhtar"],
-    "Lower Dir":["","Adenzai","Balambat","Dir","Lal Qilla","Munda","Timergara"],
-    "Malakand":["","Bat Khela","Malakand","Thana"],
-    "Mandi Bahauddin":["","Malikwal","Mandi Bahauddin","Phalia"],
-    "Mansehra":["","Balakot","Mansehra","Oghi"],
-    "Mardan":["","Katlang","Mardan","Takhtbai"],
-    "Mastung":["","Dasht","Karigh","Mastung"],
-    "Matiari":["","Hala","Matiari","Saeedabad"],
-    "Mianwali":["","Esa Khel","Mianwali","Piplan"],
-    "Mirpur":["","Dadyal","Mirpur","Pallandri"],
-    "Mirpur Khas":["","Digri","Kot Ghulam Muhammad","Mirpur Khas","Mirpur Sakro"],
-    "Mohmand":["","Ambar","Ekka Ghund","Ghalanai","Safi","Prang Ghar"],
-    "Multan":["","Jalalpur Pirwala","Multan City","Multan Saddar","Shujabad"],
-    "Musakhel":["","Kingri","Musakhel","Thal"],
-    "Muzaffarabad":["","Muzaffarabad","Hattian","Neelum"],
-    "Muzaffargarh":["","Ali Pur","Jatoi","Kot Addu","Muzaffargarh"],
-    "Nagar":["","Nagar","Hispar"],
-    "Nankana Sahib":["","Nankana Sahib","Sangla Hill","Shahkot"],
-    "Narowal":["","Narowal","Shakargarh","Zafarwal"],
-    "Nasirabad":["","Chattar","Dera Murad Jamali","Tamboo"],
-    "Naushahro Feroze":["","Bhiria","Moro","Naushahro Feroze","Kandiaro"],
-    "Neelum":["","Kel","Neelum","Sharda"],
-    "North Waziristan":["","Miranshah","Mir Ali","Razmak","Spinwam"],
-    "Nowshera":["","Jehangira","Nowshera","Pabbi"],
-    "Nushki":["","Nushki"],
-    "Okara":["","Depalpur","Okara","Renala Khurd"],
-    "Orakzai":["","Central Orakzai","Lower Orakzai","Upper Orakzai"],
-    "Pakpattan":["","Arifwala","Pakpattan"],
-    "Panjgur":["","Gichk","Panjgur","Parag"],
-    "Peshawar":["","Peshawar","Chamkani","Matani","Regi"],
-    "Pishin":["","Haramzai","Karezat","Pishin","Shahwani"],
-    "Poonch":["","Haveli","Poonch","Rawalakot"],
-    "Qambar Shahdadkot":["","Qambar","Shahdadkot","Warah"],
-    "Quetta":["","Quetta","Chiltan","Hazara Town","Kuchlak","Samungli","Sariab"],
-    "Rahim Yar Khan":["","Khan Pur","Liaquatpur","Rahimyar Khan","Sadiqabad"],
-    "Rajanpur":["","Jampur","Kot Mithan","Rajanpur","Rojhan"],
-    "Rawalpindi":["","Gujar Khan","Kahuta","Kallar Syedan","Murree","Rawalpindi","Taxila"],
-    "Rawlakot":["","Rawalakot","Poonch"],
-    "Sahiwal":["","Chichawatni","Sahiwal"],
-    "Sanghar":["","Jam Nawaz Ali","Khipro","Sanghar","Shahdadpur","Sinjhoro"],
-    "Sargodha":["","Bhalwal","Kot Momin","Sahiwal","Sargodha","Shah Pur","Silanwali"],
-    "Shaheed Benazirabad":["","Daulatpur","Nawabshah","Sakrand"],
-    "Shangla":["","Alpuri","Bisham","Chakesar","Puran"],
-    "Sheikhupura":["","Ferozewala","Muridke","Sheikhupura","Safdarabad"],
-    "Sherani":["","Sherani","Zhob"],
-    "Shigar":["","Shigar","Roundu"],
-    "Shikarpur":["","Garhi Yasin","Lakhi","Shikarpur"],
-    "Sialkot":["","Daska","Pasrur","Sambrial","Sialkot"],
-    "Sibi":["","Lehri","Sibi","Sangan"],
-    "Skardu":["","Kharmang","Rondu","Skardu","Shigar"],
-    "Sohbatpur":["","Jaffarabad","Sohbatpur"],
-    "South Waziristan":["","Jandola","Ladha","Makin","Wana"],
-    "Sudhnoti":["","Plandri","Sudhnoti"],
-    "Sujawal":["","Jati","Mirpur Bathoro","Sujawal","Shah Bandar"],
-    "Sukkur":["","Rohri","Saleh Pat","Sukkur"],
-    "Swabi":["","Razar","Swabi","Topi"],
-    "Swat":["","Bahrain","Barikot","Chakdara","Charbagh","Kabal","Khwazakhela","Matta","Mingora","Shamozai"],
-    "Tando Allah Yar":["","Chambar","Tando Allah Yar"],
-    "Tando Muhammad Khan":["","Bulri Shah Karim","Tando Muhammad Khan"],
-    "Tank":["","Tank"],
-    "Tharparkar":["","Chachro","Dahli","Diplo","Islamkot","Mithi","Nagarparkar"],
-    "Thatta":["","Ghorabari","Mirpur Sakro","Sujawal","Thatta"],
-    "Toba Tek Singh":["","Gojra","Kamalia","Pir Mahal","Toba Tek Singh"],
-    "Torghar":["","Torghar"],
-    "Umerkot":["","Pithoro","Samaro","Umerkot"],
-    "Upper Dir":["","Dir","Wari"],
-    "Vehari":["","Burewala","Mailsi","Vehari"],
-    "Washuk":["","Kharan","Nag","Washuk"],
-    "Zhob":["","Qamardin Karez","Sherani","Zhob"],
-    "Ziarat":["","Sanjawi","Ziarat"]
-  };
+  "Attock":["Attock","Fateh Jang","Hazro","Jand","Pindi Gheb","Taxila"],
+  "Bahawalnagar":["Bahawalnagar","Chishtian","Fort Abbas","Haroonabad","Minchinabad"],
+  "Bahawalpur":["Ahmadpur East","Bahawalpur","Hasilpur","Khairpur Tamewali","Yazman"],
+  "Bhakkar":["Bhakkar","Darya Khan","Kallur Kot","Mankera"],
+  "Chakwal":["Chakwal","Choa Saidan Shah","Kallar Kahar","Talagang"],
+  "Chiniot":["Bhowana","Chiniot","Lalian"],
+  "Dera Ghazi Khan":["Dera Ghazi Khan","Kot Chutta","Taunsa"],
+  "Faisalabad":["Chak Jhumra","Faisalabad City","Jaranwala","Lyallpur","Samundri","Tandlianwala"],
+  "Gujranwala":["Gujranwala","Kamoke","Nowshera Virkan","Wazirabad"],
+  "Gujrat":["Gujrat","Kharian","Sarai Alamgir"],
+  "Hafizabad":["Hafizabad","Pindi Bhattian"],
+  "Jhang":["Ahmadpur Sial","Jhang","Shorkot"],
+  "Jhelum":["Jhelum","Pind Dadan Khan","Sohawa"],
+  "Kasur":["Chunian","Kasur","Kot Radha Kishan","Pattoki"],
+  "Khanewal":["Kabirwala","Khanewal","Mian Channu","Tulamba"],
+  "Khushab":["Khushab","Noorpur","Quaidabad"],
+  "Lahore":["Lahore City","Lahore Cantt","Model Town","Raiwind","Shalimar"],
+  "Layyah":["Chaubara","Karor Lal Esan","Layyah"],
+  "Lodhran":["Dunyapur","Kehror Pakka","Lodhran"],
+  "Mandi Bahauddin":["Malikwal","Mandi Bahauddin","Phalia"],
+  "Mianwali":["Esa Khel","Mianwali","Piplan"],
+  "Multan":["Jalalpur Pirwala","Multan City","Multan Saddar","Shujabad"],
+  "Muzaffargarh":["Ali Pur","Jatoi","Kot Addu","Muzaffargarh"],
+  "Nankana Sahib":["Nankana Sahib","Sangla Hill","Shahkot"],
+  "Narowal":["Narowal","Shakargarh","Zafarwal"],
+  "Okara":["Depalpur","Okara","Renala Khurd"],
+  "Pakpattan":["Arifwala","Pakpattan"],
+  "Rahim Yar Khan":["Khan Pur","Liaquatpur","Rahimyar Khan","Sadiqabad"],
+  "Rajanpur":["Jampur","Kot Mithan","Rajanpur","Rojhan"],
+  "Rawalpindi":["Gujar Khan","Kahuta","Kallar Syedan","Murree","Rawalpindi","Taxila"],
+  "Sahiwal":["Chichawatni","Sahiwal"],
+  "Sargodha":["Bhalwal","Kot Momin","Sargodha","Shah Pur","Silanwali"],
+  "Sheikhupura":["Ferozewala","Muridke","Sheikhupura","Safdarabad"],
+  "Sialkot":["Daska","Pasrur","Sambrial","Sialkot"],
+  "Toba Tek Singh":["Gojra","Kamalia","Pir Mahal","Toba Tek Singh"],
+  "Vehari":["Burewala","Mailsi","Vehari"],
+  "Badin":["Badin","Matli","Talhar","Tando Bago"],
+  "Dadu":["Dadu","Johi","Khairpur Nathan Shah","Mehar","Sehwan"],
+  "Ghotki":["Ghotki","Kandhkot","Mirpur Mathelo","Ubauro"],
+  "Hyderabad":["Hyderabad","Latifabad","Qasimabad","Tando Jam"],
+  "Jacobabad":["Garhi Khairo","Jacobabad","Thul"],
+  "Jamshoro":["Jamshoro","Kotri","Manjhand","Thano Bula Khan"],
+  "Karachi Central":["Karachi Central"],
+  "Karachi East":["Karachi East"],
+  "Karachi Korangi":["Karachi Korangi"],
+  "Karachi Malir":["Karachi Malir"],
+  "Karachi South":["Karachi South"],
+  "Karachi West":["Karachi West"],
+  "Kashmore":["Kashmore","Kandhkot","Tangwani"],
+  "Khairpur":["Gambat","Khairpur","Kot Diji","Mirwah","Nara","Sobhodero"],
+  "Larkana":["Dokri","Kamber","Larkana","Ratodero"],
+  "Matiari":["Hala","Matiari","Saeedabad"],
+  "Mirpur Khas":["Digri","Mirpur Khas"],
+  "Naushahro Feroze":["Bhiria","Moro","Naushahro Feroze","Kandiaro"],
+  "Qambar Shahdadkot":["Qambar","Shahdadkot","Warah"],
+  "Sanghar":["Khipro","Sanghar","Shahdadpur","Sinjhoro"],
+  "Shaheed Benazirabad":["Daulatpur","Nawabshah","Sakrand"],
+  "Shikarpur":["Garhi Yasin","Lakhi","Shikarpur"],
+  "Sujawal":["Jati","Sujawal"],
+  "Sukkur":["Rohri","Sukkur"],
+  "Tando Allah Yar":["Chambar","Tando Allah Yar"],
+  "Tando Muhammad Khan":["Bulri Shah Karim","Tando Muhammad Khan"],
+  "Tharparkar":["Chachro","Diplo","Mithi","Nagarparkar"],
+  "Thatta":["Mirpur Sakro","Sujawal","Thatta"],
+  "Umerkot":["Pithoro","Samaro","Umerkot"],
+  "Abbottabad":["Abbottabad","Havelian","Lora","Nawanshehr"],
+  "Bajaur":["Barang","Khar","Mamund","Nawagai","Salarzai"],
+  "Bannu":["Bannu","Domel"],
+  "Battagram":["Allai","Battagram"],
+  "Buner":["Daggar","Gadezai","Mandanr","Sowari"],
+  "Charsadda":["Charsadda","Shabqadar","Tangi"],
+  "Chitral":["Chitral","Drosh","Mastuj"],
+  "Dera Ismail Khan":["Darazinda","Dera Ismail Khan","Kulachi","Paharpur"],
+  "Hangu":["Hangu","Thall"],
+  "Haripur":["Ghazi","Haripur","Khanpur"],
+  "Karak":["Banda Daud Shah","Karak"],
+  "Khyber":["Bara","Jamrud","Landi Kotal"],
+  "Kohat":["Kohat","Lachi","Tall"],
+  "Kohistan Lower":["Allai","Bankot"],
+  "Kohistan Upper":["Dubair","Kandia","Patan"],
+  "Kolai Pallas":["Kolai","Pallas"],
+  "Kurram":["Parachinar","Sadda","Tall"],
+  "Lakki Marwat":["Lakki Marwat","Serai Naurang"],
+  "Lower Dir":["Adenzai","Balambat","Dir","Timergara"],
+  "Malakand":["Bat Khela","Malakand","Thana"],
+  "Mansehra":["Balakot","Mansehra","Oghi"],
+  "Mardan":["Katlang","Mardan","Takhtbai"],
+  "Mohmand":["Ambar","Ghalanai","Safi"],
+  "North Waziristan":["Miranshah","Mir Ali","Razmak"],
+  "Nowshera":["Jehangira","Nowshera","Pabbi"],
+  "Orakzai":["Central Orakzai","Lower Orakzai","Upper Orakzai"],
+  "Peshawar":["Peshawar","Chamkani","Matani","Regi"],
+  "Shangla":["Alpuri","Bisham","Chakesar"],
+  "South Waziristan":["Jandola","Ladha","Wana"],
+  "Swabi":["Razar","Swabi","Topi"],
+  "Swat":["Bahrain","Barikot","Kabal","Khwazakhela","Matta","Mingora"],
+  "Tank":["Tank"],
+  "Torghar":["Torghar"],
+  "Upper Dir":["Dir","Wari"],
+  "Awaran":["Awaran","Jhal Jhao","Mashkel"],
+  "Barkhan":["Barkhan","Rakhni"],
+  "Chagai":["Chagai","Dalbandin","Taftan"],
+  "Dera Bugti":["Dera Bugti","Sui"],
+  "Gwadar":["Gwadar","Jiwani","Ormara","Pasni"],
+  "Harnai":["Harnai","Shahrig"],
+  "Jafarabad":["Gandava","Jafarabad","Usta Muhammad"],
+  "Jhal Magsi":["Jhal Magsi","Nindara"],
+  "Kachhi":["Bolan","Dadhar","Sibi"],
+  "Kalat":["Kalat","Mangochar","Surab"],
+  "Kech":["Buleda","Hoshab","Mand","Turbat"],
+  "Kharan":["Kharan","Nag"],
+  "Khuzdar":["Khuzdar","Naal","Ornach","Zehri"],
+  "Killa Abdullah":["Chaman","Gulistan","Killa Abdullah"],
+  "Killa Saifullah":["Killa Saifullah","Muslim Bagh"],
+  "Kohlu":["Kohlu","Maiwand"],
+  "Lasbela":["Bela","Hub","Lasbela","Uthal","Winder"],
+  "Lehri":["Lehri","Sangan"],
+  "Loralai":["Bori","Duki","Loralai","Mekhtar"],
+  "Mastung":["Dasht","Mastung"],
+  "Musakhel":["Kingri","Musakhel","Thal"],
+  "Nasirabad":["Dera Murad Jamali","Tamboo"],
+  "Nushki":["Nushki"],
+  "Panjgur":["Gichk","Panjgur"],
+  "Pishin":["Haramzai","Pishin","Shahwani"],
+  "Quetta":["Quetta","Chiltan","Kuchlak","Samungli","Sariab"],
+  "Sherani":["Sherani"],
+  "Sibi":["Lehri","Sibi"],
+  "Sohbatpur":["Jaffarabad","Sohbatpur"],
+  "Washuk":["Kharan","Nag"],
+  "Zhob":["Qamardin Karez","Zhob"],
+  "Ziarat":["Sanjawi","Ziarat"],
+  "Bagh":["Bagh","Dhirkot"],
+  "Bhimber":["Bhimber","Samahni"],
+  "Haveli":["Forward Kahuta","Haveli"],
+  "Hattian Bala":["Hattian Bala","Leepa"],
+  "Kotli":["Charhoi","Kotli","Sehnsa"],
+  "Mirpur":["Dadyal","Mirpur"],
+  "Muzaffarabad":["Muzaffarabad","Hattian","Neelum"],
+  "Neelum":["Kel","Neelum","Sharda"],
+  "Poonch":["Haveli","Poonch","Rawalakot"],
+  "Rawlakot":["Rawalakot","Poonch"],
+  "Sudhnoti":["Plandri","Sudhnoti"],
+  "Astore":["Astore","Gurez"],
+  "Diamer":["Chilas","Darel","Tangir"],
+  "Ghanche":["Ghanche","Khaplu","Saltoro"],
+  "Ghizer":["Ghizer","Gupis","Ishkoman","Punial"],
+  "Gilgit":["Gilgit","Gupis","Nomal"],
+  "Hunza":["Aliabad","Gojal","Hunza"],
+  "Nagar":["Nagar","Hispar"],
+  "Shigar":["Shigar","Roundu"],
+  "Skardu":["Kharmang","Rondu","Skardu"],
+  "Islamabad":["Islamabad","Kahuta","Kotli Sattian","Rawat","Tarnol"]
+};
+
+const UNION_COUNCILS = {
+  "Lahore City":["Aziz Bhatti","Baghbanpura","Data Gunj Bakhsh","Gulberg","Gulshan Ravi","Iqbal Town","Nishtar","Ravi","Samanabad","Shalimar","Shad Bagh","Wagha"],
+  "Raiwind":["Badian","Barki","Manga Mandi","Raiwind","Sundar"],
+  "Model Town":["Model Town","Johar Town","Garden Town","Faisal Town"],
+  "Lahore Cantt":["Cantt","Gulberg","Defence"],
+  "Shalimar":["Shalimar","Shahdara","Kot Abdul Malik"],
+  "Rawalpindi":["Arya Mohalla","Dhoke Khabba","Golra","Morgah","Naseerabad","Pindora","Raja Bazaar","Rawat","Saddar","Tench Bhatta","Westridge"],
+  "Murree":["Murree","Ghora Gali","Patriata","Kahuta","Kotli Sattian"],
+  "Gujar Khan":["Gujar Khan","Bans","Dina","Jatli","Kalyal","Mandra","Mohra"],
+  "Taxila":["Taxila","Wah Cantt","Khanpur"],
+  "Faisalabad City":["Civil Lines","Clock Tower","Dijkot","Gulberg","Iqbal Town","Madina Town","Peoples Colony","Susan Road"],
+  "Jaranwala":["Jaranwala","Chak 44 GB","Buchiana","Dijkot"],
+  "Multan City":["Bosan","Cantt","City","Delhi Gate","Fort","Gulgasht","Jalil Abad","Mumtazabad","Qadirpur Raan","Shah Rukn-e-Alam"],
+  "Gujranwala":["Ali Pur Chatta","Eminabad","Gakhar Mandi","Kamoki","Kamonki","Nowshera Virkan","Wazirabad"],
+  "Wazirabad":["Wazirabad","Sambrial"],
+  "Sialkot":["Badiana","Chawinda","City","Daska","Kotli Loharan","Pasrur","Sambrial","Ugoki"],
+  "Daska":["Daska","Badiana","Roras","Ugoki"],
+  "Sargodha":["Bhagtanwala","Bhalwal","City","Kotmomin","Shah Pur","Silanwali"],
+  "Bahawalpur":["Ahmed Pur East","Bahawalpur City","Hasilpur","Sadiq Abad","Yazman"],
+  "Peshawar":["Achini","Badaber","Chamkani","Daudzai","Faqirabad","Hayatabad","Khazana","Landi Arbab","Matani","Nahaqi","Nasir Bagh","Pishtakhara","Regi","Shah Alam","Yakatoot"],
+  "Karachi Central":["Ancholi","Azizabad","Buffer Zone","Gulberg","Gulshan-e-Iqbal","Karimabad","Liaquatabad","New Karachi","North Nazimabad","Orangi","PIB Colony"],
+  "Karachi East":["Ferozabad","Gulshan-e-Maymar","Jamshed","Landhi","Malir","Shah Faisal"],
+  "Karachi South":["Arambagh","Civil Lines","Defence","Clifton","Keamari","Lyari","Saddar"],
+  "Karachi West":["Baldia","Harbour","Mominabad","Orangi","Site"],
+  "Karachi Korangi":["Korangi","Landhi","Model Colony","Shah Faisal"],
+  "Karachi Malir":["Bin Qasim","Gadap","Malir"],
+  "Quetta":["Airport","Brewery","Cantt","City","Hazarganji","Kuchlak","Pashtoonabad","Satellite Town"],
+  "Islamabad":["Bara Kahu","Bhara Kahu","Golra","Humak","I-10","I-8","Nilore","Rawat","Shahzad Town","Tarnol"],
+  "Abbottabad":["Abbottabad","Bagra","Banda","Havelian","Ilyasi","Sherwan"],
+  "Mingora":["Barikot","Daggar","Khwazakhela","Matta","Mingora City","Shamozai"],
+  "Mardan":["Garhi Kapura","Katlang","Lundkhwar","Mardan City","Rustam","Shergarh"],
+  "Hyderabad":["Hatri","Hyderabad City","Latifabad","Paretabad","Qasimabad","Tando Jam"],
+  "Sukkur":["Rohri","Saleh Pat","Sukkur City"],
+  "Larkana":["Dokri","Kamber","Larkana City","Naudero","Ratodero"],
+  "Muzaffarabad":["Hattian","Muzaffarabad City","Neelum"],
+  "Gilgit":["Danyore","Gilgit City","Juglot","Nomal"],
+  "Skardu":["Gol","Khaplu","Skardu City","Shigar"]
+};
 
 function updateDistricts(province) {
-  const dsel = document.getElementById('f_district');
-  const tsel = document.getElementById('f_tehsil');
-  dsel.innerHTML = '<option value="">Select district…</option>';
-  tsel.innerHTML = '<option value="">Select tehsil…</option>';
+  var dsel = document.getElementById('f_district');
+  var tsel = document.getElementById('f_tehsil');
+  var usel = document.getElementById('f_uc');
+  dsel.innerHTML = '<option value="">Select district...</option>';
+  tsel.innerHTML = '<option value="">Select tehsil...</option>';
+  usel.innerHTML = '<option value="">Select union council...</option>';
   if (!province || !PROVINCES[province]) return;
-  PROVINCES[province].forEach(d => {
-    if (!d) return;
-    const opt = document.createElement('option');
+  PROVINCES[province].forEach(function(d) {
+    var opt = document.createElement('option');
     opt.value = d; opt.textContent = d;
     dsel.appendChild(opt);
   });
 }
 
 function updateTehsils(district) {
-  const sel = document.getElementById('f_tehsil');
-  sel.innerHTML = '<option value="">Select tehsil…</option>';
-  document.getElementById('f_uc').innerHTML = '<option value="">Select union council…</option>';
+  var tsel = document.getElementById('f_tehsil');
+  var usel = document.getElementById('f_uc');
+  tsel.innerHTML = '<option value="">Select tehsil...</option>';
+  usel.innerHTML = '<option value="">Select union council...</option>';
   if (!district || !DISTRICTS[district]) return;
-  DISTRICTS[district].forEach(t => {
-    if (!t) return;
-    const opt = document.createElement('option');
+  DISTRICTS[district].forEach(function(t) {
+    var opt = document.createElement('option');
     opt.value = t; opt.textContent = t;
-    sel.appendChild(opt);
+    tsel.appendChild(opt);
   });
 }
-
-const UNION_COUNCILS = {
-    "Abbottabad":["","Abbottabad","Bagra","Banda","Havelian","Ilyasi","Lora","Mirpur","Nawan Shehr","Sherwan"],
-    "Bahawalpur":["","Ahmed Pur East","Bahawalpur City","Hasilpur","Khairpur Tamewali","Sadiq Abad","Yazman"],
-    "Daska":["","Daska","Badiana","Roras","Ugoki"],
-    "Faisalabad City":["","Chak Jhumra","Civil Lines","Clock Tower","Dijkot","Ghulam Muhammad Abad","Gulberg","Iqbal Town","Jail Road","Jinnah Colony","Kotwali","Lyallpur","Madina Town","Peoples Colony","Sargodha Road","Susan Road"],
-    "Ferozewala":["","Ferozewala","Muridke","Shahdara"],
-    "Gilgit":["","Danyore","Gilgit City","Juglot","Minawar","Nomal"],
-    "Gujar Khan":["","Gujar Khan","Bans","Dina","Jatli","Kalyal","Lehri","Mandra","Mandrah","Mohra","Phulgran"],
-    "Gujranwala":["","Ali Pur Chatta","Daska Road","Eminabad","Gakhar Mandi","Gondlanwala","Kamoki","Kamonki","Kot Lakh Pat","Nowshera Virkan","Shahdara","Wazirabad"],
-    "Hyderabad":["","Hatri","Hyderabad City","Latifabad","Paretabad","Qasimabad","Tando Jam"],
-    "Islamabad":["","Bara Kahu","Bhara Kahu","Banni","Golra","Humak","I-10","I-8","Nilore","Noon","Potohar","Rawal","Rawat","Shahzad Town","Sihala","Tarnol"],
-    "Jalalpur Pirwala":["","Jalalpur","Miranpur","Shujabad"],
-    "Jaranwala":["","Jaranwala","Chak 44 GB","Chak 73 GB","Chak 208 RB","Buchiana","Dijkot"],
-    "Karachi Central":["","Ancholi","Azizabad","Buffer Zone","Gulberg","Gulshan-e-Iqbal","Gulshan-e-Johar","Johar","Karimabad","Liaquatabad","New Karachi","North Nazimabad","Orangi","PIB Colony","Paposh Nagar","Saddar"],
-    "Karachi East":["","Ferozabad","Gulshan-e-Maymar","Jamshed","Khadda Market","Landhi","Malir","Shah Faisal"],
-    "Karachi Korangi":["","Korangi","Landhi","Model Colony","Shah Faisal"],
-    "Karachi Malir":["","Bin Qasim","Gadap","Malir","Murad Memon"],
-    "Karachi South":["","Arambagh","Civil Lines","Defence","Clifton","Keamari","Lyari","Saddar"],
-    "Karachi West":["","Baldia","Harbour","KIMZ","Mominabad","Orangi","Site"],
-    "Lahore Cantt":["","Cantt","Gulberg","Defence"],
-    "Lahore City":["","Aziz Bhatti","Baghbanpura","Data Gunj Bakhsh","Gulberg","Gulshan Ravi","Iqbal Town","Nishtar","Ravi","Samanabad","Shalimar","Shad Bagh","Wagha"],
-    "Larkana":["","Dokri","Kamber","Larkana City","Naudero","Ratodero"],
-    "Mardan":["","Garhi Kapura","Katlang","Lundkhwar","Mardan City","Rustam","Shergarh","Takht Bhai"],
-    "Mingora":["","Barikot","Daggar","Khwazakhela","Matta","Mingora City","Shamozai"],
-    "Model Town":["","Model Town","Johar Town","Garden Town","Faisal Town"],
-    "Multan City":["","Badruddin","Bosan","Cantt","City","Delhi Gate","Fort","Gulgasht","Jalil Abad","Mumtazabad","Qadirpur Raan","Shah Rukn-e-Alam","Shujabad Road","Sikandarabad","Soofi Sahib","Vehari Road"],
-    "Multan Saddar":["","Daulat Gate","Husain Agahi","Lohari Gate","Pak Gate"],
-    "Murree":["","Murree","Ghora Gali","Patriata","Kahuta","Kotli Sattian"],
-    "Muzaffarabad":["","Hattian","Muzaffarabad City","Neelum","Upper Neelum"],
-    "Peshawar":["","Achini","Badaber","Badhber","Chamkani","Charsadda Road","Daudzai","Faqirabad","Hayatabad","Inqilab","Khazana","Lahori Gate","Landi Arbab","Matani","Nahaqi","Nasir Bagh","Nothia","Pishtakhara","Regi","Shah Alam","Shahi Bala","Shahi Zangal","Sikandar Pura","University Town","Wazir Bagh","Yakatoot"],
-    "Quetta":["","Airport","Brewery","Cantt","City","Hazarganji","Kuchlak","Pashtoonabad","Satellite Town","Shalkot","Skardu Road","Spiny","Western Bypass"],
-    "Raiwind":["","Badian","Barki","Manga Mandi","Raiwind","Sundar"],
-    "Rawalpindi":["","Arya Mohalla","Dhoke Khabba","Dhoke Syedan","Girja","Golra","Gulsher","Kahuta","Kallar Syedan","Koral","Morgah","Naseerabad","Pindora","Raja Bazaar","Rawat","Saddar","Tench Bhatta","Westridge"],
-    "Samundri":["","Samundri","Chak 100 JB","Chak 146 RB","Chak 208 GB","Khurrianwala"],
-    "Sargodha":["","Bhagtanwala","Bhalwal","Chak 26 NB","Chak 45 NB","City","Kotmomin","Sahiwal","Shah Pur","Shahpur","Silanwali"],
-    "Shalimar":["","Shalimar","Shahdara","Kot Abdul Malik"],
-    "Sialkot":["","Badiana","Chawinda","City","Daska","Kotli Loharan","Muradpur","Pasrur","Roras","Sambrial","Ugoki"],
-    "Skardu":["","Gol","Khaplu","Skardu City","Shigar","Tolti"],
-    "Sukkur":["","Rohri","Saleh Pat","Sukkur City","Tikri"],
-    "Taxila":["","Taxila","Wah Cantt","Khanpur"],
-    "Wazirabad":["","Wazirabad","Sambrial","Gujranwala Saddar"],
-    "__default__":["","UC-1","UC-2","UC-3","UC-4","UC-5","UC-6","UC-7","UC-8","UC-9","UC-10"]
-  };
 
 function updateUCs(tehsil) {
-  const sel = document.getElementById('f_uc');
-  const txt = document.getElementById('f_village_text');
-  sel.innerHTML = '<option value="">Select union council…</option>';
-  txt.style.display = 'none';
-  const ucs = UNION_COUNCILS[tehsil] || [];
-  ucs.forEach(u => {
-    if (!u) return;
-    const opt = document.createElement('option');
+  var usel = document.getElementById('f_uc');
+  usel.innerHTML = '<option value="">Select union council...</option>';
+  var ucs = UNION_COUNCILS[tehsil] || [];
+  if (ucs.length === 0) {
+    var opt = document.createElement('option');
+    opt.value = 'N/A'; opt.textContent = 'Not listed - type in village field';
+    usel.appendChild(opt);
+    return;
+  }
+  ucs.forEach(function(u) {
+    var opt = document.createElement('option');
     opt.value = u; opt.textContent = u;
-    sel.appendChild(opt);
+    usel.appendChild(opt);
   });
-  // Always add Other option
-  const other = document.createElement('option');
-  other.value = 'Other'; other.textContent = 'Other (type manually)';
-  sel.appendChild(other);
 }
 
-
 function toggleSame(cb) {
-  const wa = document.getElementById('f_whatsapp');
+  var wa = document.getElementById('f_whatsapp');
   wa.disabled = cb.checked;
   if (cb.checked) wa.value = document.getElementById('f_phone').value;
   else wa.value = '';
 }
 
-document.getElementById('f_phone').addEventListener('input', function() {
-  if (document.getElementById('sameAsPhone').checked)
-    document.getElementById('f_whatsapp').value = this.value;
+document.addEventListener('DOMContentLoaded', function() {
+  document.getElementById('f_phone').addEventListener('input', function() {
+    if (document.getElementById('sameAsPhone').checked)
+      document.getElementById('f_whatsapp').value = this.value;
+  });
 });
 
-function get(id) { const el = document.getElementById(id); return el ? el.value.trim() : ''; }
+function get(id) {
+  var el = document.getElementById(id);
+  return el ? el.value.trim() : '';
+}
 
 function handleSubmit() {
-  const formError = document.getElementById('formError');
+  var formError = document.getElementById('formError');
   formError.style.display = 'none';
-  const ids = ['f_fullname','f_phone','f_whatsapp','f_province','f_district','f_tehsil','f_profession','f_qualification'];
-  let valid = true;
-  ids.forEach(id => {
-    const el = document.getElementById(id);
-    if (!el.value.trim()) { el.classList.add('err'); valid = false; }
+  var ids = ['f_fullname','f_phone','f_whatsapp','f_province','f_district','f_tehsil','f_profession','f_qualification'];
+  var valid = true;
+  ids.forEach(function(id) {
+    var el = document.getElementById(id);
+    if (!el || !el.value.trim()) { if(el) el.classList.add('err'); valid = false; }
     else el.classList.remove('err');
   });
   if (!valid) {
@@ -1489,11 +1320,11 @@ function handleSubmit() {
     return;
   }
   document.getElementById('f_whatsapp').disabled = false;
-  const btn = document.getElementById('submitBtn');
+  var btn = document.getElementById('submitBtn');
   btn.disabled = true;
   btn.classList.add('loading');
-  document.getElementById('btnText').textContent = 'Saving…';
-  const params = new URLSearchParams({
+  document.getElementById('btnText').textContent = 'Saving...';
+  var params = new URLSearchParams({
     timestamp    : new Date().toLocaleString(),
     fullname     : get('f_fullname'),
     email        : get('f_email'),
@@ -1508,9 +1339,9 @@ function handleSubmit() {
     qualification: get('f_qualification'),
     blood        : get('f_blood'),
   });
-  const img = new Image();
+  var img = new Image();
   img.src = SCRIPT_URL + '?' + params.toString();
-  setTimeout(() => {
+  setTimeout(function() {
     btn.disabled = false;
     btn.classList.remove('loading');
     document.getElementById('btnText').textContent = 'Register Now →';
@@ -1520,13 +1351,15 @@ function handleSubmit() {
 }
 
 function resetForm() {
-  document.getElementById('f_uc').innerHTML = '<option value="">Select union council…</option>';
   document.getElementById('regForm').reset();
   document.getElementById('f_whatsapp').disabled = false;
+  document.getElementById('f_district').innerHTML = '<option value="">Select district...</option>';
+  document.getElementById('f_tehsil').innerHTML = '<option value="">Select tehsil...</option>';
+  document.getElementById('f_uc').innerHTML = '<option value="">Select union council...</option>';
   document.getElementById('regForm').style.display = 'block';
   document.getElementById('successBox').style.display = 'none';
   document.getElementById('formError').style.display = 'none';
-  document.querySelectorAll('.err').forEach(el => el.classList.remove('err'));
+  document.querySelectorAll('.err').forEach(function(el) { el.classList.remove('err'); });
 }
 </script>
 </body>
