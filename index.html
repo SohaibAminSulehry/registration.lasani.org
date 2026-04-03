@@ -948,9 +948,13 @@ UApSlAKUpQClKUApSlAKUpQClKUApSlAKUpQClKUApSlAKUpQClKUApSlAKUpQClKUB//9k=" alt="K
         <div class="row">
           <div class="field">
             <label>Tehsil <span class="req">*</span></label>
-            <select id="f_tehsil"><option value="">Select tehsil…</option></select>
+            <select id="f_tehsil" onchange="updateUCs(this.value)"><option value="">Select tehsil…</option></select>
           </div>
           <div class="field">
+          <label>Union Council</label>
+          <select id="f_uc" onchange=""><option value="">Select union council…</option></select>
+        </div>
+        <div class="field">
             <label>Village / Town</label>
             <input type="text" id="f_village" placeholder="Enter village or town"/>
           </div>
@@ -1030,7 +1034,7 @@ UApSlAKUpQClKUApSlAKUpQClKUApSlAKUpQClKUApSlAKUpQClKUApSlAKUpQClKUB//9k=" alt="K
 </div>
 
 <script>
-const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzPB3BZe28QuuS6AJ89uS_JJNbZiqDnAEiGX5mgQy3BcCprmp4WgF0DvR741ieKjLLd_g/exec";
+const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbw4e77RbCuvbEYC30oclacvzSabIJcH3mS9DrO4egSyRFTEYyxpKAVJgoUCYYwkbsBy8w/exec";
 
 
 
@@ -1382,6 +1386,7 @@ function updateDistricts(province) {
 function updateTehsils(district) {
   const sel = document.getElementById('f_tehsil');
   sel.innerHTML = '<option value="">Select tehsil…</option>';
+  document.getElementById('f_uc').innerHTML = '<option value="">Select union council…</option>';
   if (!district || !DISTRICTS[district]) return;
   DISTRICTS[district].forEach(t => {
     if (!t) return;
@@ -1390,6 +1395,69 @@ function updateTehsils(district) {
     sel.appendChild(opt);
   });
 }
+
+const UNION_COUNCILS = {
+    "Abbottabad":["","Abbottabad","Bagra","Banda","Havelian","Ilyasi","Lora","Mirpur","Nawan Shehr","Sherwan"],
+    "Bahawalpur":["","Ahmed Pur East","Bahawalpur City","Hasilpur","Khairpur Tamewali","Sadiq Abad","Yazman"],
+    "Daska":["","Daska","Badiana","Roras","Ugoki"],
+    "Faisalabad City":["","Chak Jhumra","Civil Lines","Clock Tower","Dijkot","Ghulam Muhammad Abad","Gulberg","Iqbal Town","Jail Road","Jinnah Colony","Kotwali","Lyallpur","Madina Town","Peoples Colony","Sargodha Road","Susan Road"],
+    "Ferozewala":["","Ferozewala","Muridke","Shahdara"],
+    "Gilgit":["","Danyore","Gilgit City","Juglot","Minawar","Nomal"],
+    "Gujar Khan":["","Gujar Khan","Bans","Dina","Jatli","Kalyal","Lehri","Mandra","Mandrah","Mohra","Phulgran"],
+    "Gujranwala":["","Ali Pur Chatta","Daska Road","Eminabad","Gakhar Mandi","Gondlanwala","Kamoki","Kamonki","Kot Lakh Pat","Nowshera Virkan","Shahdara","Wazirabad"],
+    "Hyderabad":["","Hatri","Hyderabad City","Latifabad","Paretabad","Qasimabad","Tando Jam"],
+    "Islamabad":["","Bara Kahu","Bhara Kahu","Banni","Golra","Humak","I-10","I-8","Nilore","Noon","Potohar","Rawal","Rawat","Shahzad Town","Sihala","Tarnol"],
+    "Jalalpur Pirwala":["","Jalalpur","Miranpur","Shujabad"],
+    "Jaranwala":["","Jaranwala","Chak 44 GB","Chak 73 GB","Chak 208 RB","Buchiana","Dijkot"],
+    "Karachi Central":["","Ancholi","Azizabad","Buffer Zone","Gulberg","Gulshan-e-Iqbal","Gulshan-e-Johar","Johar","Karimabad","Liaquatabad","New Karachi","North Nazimabad","Orangi","PIB Colony","Paposh Nagar","Saddar"],
+    "Karachi East":["","Ferozabad","Gulshan-e-Maymar","Jamshed","Khadda Market","Landhi","Malir","Shah Faisal"],
+    "Karachi Korangi":["","Korangi","Landhi","Model Colony","Shah Faisal"],
+    "Karachi Malir":["","Bin Qasim","Gadap","Malir","Murad Memon"],
+    "Karachi South":["","Arambagh","Civil Lines","Defence","Clifton","Keamari","Lyari","Saddar"],
+    "Karachi West":["","Baldia","Harbour","KIMZ","Mominabad","Orangi","Site"],
+    "Lahore Cantt":["","Cantt","Gulberg","Defence"],
+    "Lahore City":["","Aziz Bhatti","Baghbanpura","Data Gunj Bakhsh","Gulberg","Gulshan Ravi","Iqbal Town","Nishtar","Ravi","Samanabad","Shalimar","Shad Bagh","Wagha"],
+    "Larkana":["","Dokri","Kamber","Larkana City","Naudero","Ratodero"],
+    "Mardan":["","Garhi Kapura","Katlang","Lundkhwar","Mardan City","Rustam","Shergarh","Takht Bhai"],
+    "Mingora":["","Barikot","Daggar","Khwazakhela","Matta","Mingora City","Shamozai"],
+    "Model Town":["","Model Town","Johar Town","Garden Town","Faisal Town"],
+    "Multan City":["","Badruddin","Bosan","Cantt","City","Delhi Gate","Fort","Gulgasht","Jalil Abad","Mumtazabad","Qadirpur Raan","Shah Rukn-e-Alam","Shujabad Road","Sikandarabad","Soofi Sahib","Vehari Road"],
+    "Multan Saddar":["","Daulat Gate","Husain Agahi","Lohari Gate","Pak Gate"],
+    "Murree":["","Murree","Ghora Gali","Patriata","Kahuta","Kotli Sattian"],
+    "Muzaffarabad":["","Hattian","Muzaffarabad City","Neelum","Upper Neelum"],
+    "Peshawar":["","Achini","Badaber","Badhber","Chamkani","Charsadda Road","Daudzai","Faqirabad","Hayatabad","Inqilab","Khazana","Lahori Gate","Landi Arbab","Matani","Nahaqi","Nasir Bagh","Nothia","Pishtakhara","Regi","Shah Alam","Shahi Bala","Shahi Zangal","Sikandar Pura","University Town","Wazir Bagh","Yakatoot"],
+    "Quetta":["","Airport","Brewery","Cantt","City","Hazarganji","Kuchlak","Pashtoonabad","Satellite Town","Shalkot","Skardu Road","Spiny","Western Bypass"],
+    "Raiwind":["","Badian","Barki","Manga Mandi","Raiwind","Sundar"],
+    "Rawalpindi":["","Arya Mohalla","Dhoke Khabba","Dhoke Syedan","Girja","Golra","Gulsher","Kahuta","Kallar Syedan","Koral","Morgah","Naseerabad","Pindora","Raja Bazaar","Rawat","Saddar","Tench Bhatta","Westridge"],
+    "Samundri":["","Samundri","Chak 100 JB","Chak 146 RB","Chak 208 GB","Khurrianwala"],
+    "Sargodha":["","Bhagtanwala","Bhalwal","Chak 26 NB","Chak 45 NB","City","Kotmomin","Sahiwal","Shah Pur","Shahpur","Silanwali"],
+    "Shalimar":["","Shalimar","Shahdara","Kot Abdul Malik"],
+    "Sialkot":["","Badiana","Chawinda","City","Daska","Kotli Loharan","Muradpur","Pasrur","Roras","Sambrial","Ugoki"],
+    "Skardu":["","Gol","Khaplu","Skardu City","Shigar","Tolti"],
+    "Sukkur":["","Rohri","Saleh Pat","Sukkur City","Tikri"],
+    "Taxila":["","Taxila","Wah Cantt","Khanpur"],
+    "Wazirabad":["","Wazirabad","Sambrial","Gujranwala Saddar"],
+    "__default__":["","UC-1","UC-2","UC-3","UC-4","UC-5","UC-6","UC-7","UC-8","UC-9","UC-10"]
+  };
+
+function updateUCs(tehsil) {
+  const sel = document.getElementById('f_uc');
+  const txt = document.getElementById('f_village_text');
+  sel.innerHTML = '<option value="">Select union council…</option>';
+  txt.style.display = 'none';
+  const ucs = UNION_COUNCILS[tehsil] || [];
+  ucs.forEach(u => {
+    if (!u) return;
+    const opt = document.createElement('option');
+    opt.value = u; opt.textContent = u;
+    sel.appendChild(opt);
+  });
+  // Always add Other option
+  const other = document.createElement('option');
+  other.value = 'Other'; other.textContent = 'Other (type manually)';
+  sel.appendChild(other);
+}
+
 
 function toggleSame(cb) {
   const wa = document.getElementById('f_whatsapp');
@@ -1434,6 +1502,7 @@ function handleSubmit() {
     province     : get('f_province'),
     district     : get('f_district'),
     tehsil       : get('f_tehsil'),
+    uc           : get('f_uc'),
     village      : get('f_village'),
     profession   : get('f_profession'),
     qualification: get('f_qualification'),
@@ -1451,6 +1520,7 @@ function handleSubmit() {
 }
 
 function resetForm() {
+  document.getElementById('f_uc').innerHTML = '<option value="">Select union council…</option>';
   document.getElementById('regForm').reset();
   document.getElementById('f_whatsapp').disabled = false;
   document.getElementById('regForm').style.display = 'block';
