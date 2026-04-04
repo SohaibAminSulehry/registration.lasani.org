@@ -948,11 +948,11 @@ UApSlAKUpQClKUApSlAKUpQClKUApSlAKUpQClKUApSlAKUpQClKUApSlAKUpQClKUB//9k=" alt="K
         <div class="row">
           <div class="field">
             <label>Tehsil <span class="req">*</span></label>
-            <select id="f_tehsil" onchange="updateUCs(this.value)"><option value="">Select tehsil…</option></select>
+            <select id="f_tehsil"><option value="">Select tehsil…</option></select>
           </div>
           <div class="field">
           <label>Union Council</label>
-          <select id="f_uc" onchange=""><option value="">Select union council…</option></select>
+          <input type="text" id="f_uc" placeholder="Enter union council (optional)"/>
         </div>
         <div class="field">
             <label>Village / Town</label>
@@ -965,9 +965,9 @@ UApSlAKUpQClKUApSlAKUpQClKUApSlAKUpQClKUApSlAKUpQClKUApSlAKUpQClKUB//9k=" alt="K
         <div class="field">
           <label>Profession <span class="req">*</span></label>
           <select id="f_profession">
-            <option value="">Select profession…</option>
+            <option value="">Select profession Category…</option>
             <option>Accounts</option>
-            
+            <option>Food</option>
             <option>Doctor</option>
             <option>Farmer</option>
             <option>Information Technology</option>
@@ -1034,7 +1034,7 @@ UApSlAKUpQClKUApSlAKUpQClKUApSlAKUpQClKUApSlAKUpQClKUApSlAKUpQClKUB//9k=" alt="K
 </div>
 
 <script>
-const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbytyu9H20eat5hCXEYSlqWe5RwlJj8qQ6F3XTqOJrts8LTrZmFV00fobVB8GieX34x1/exec";
+const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbw4e77RbCuvbEYC30oclacvzSabIJcH3mS9DrO4egSyRFTEYyxpKAVJgoUCYYwkbsBy8w/exec";
 
 const PROVINCES = {
   "Punjab":["Attock","Bahawalnagar","Bahawalpur","Bhakkar","Chakwal","Chiniot","Dera Ghazi Khan","Faisalabad","Gujranwala","Gujrat","Hafizabad","Jhang","Jhelum","Kasur","Khanewal","Khushab","Lahore","Layyah","Lodhran","Mandi Bahauddin","Mianwali","Multan","Muzaffargarh","Nankana Sahib","Narowal","Okara","Pakpattan","Rahim Yar Khan","Rajanpur","Rawalpindi","Sahiwal","Sargodha","Sheikhupura","Sialkot","Toba Tek Singh","Vehari"],
@@ -1267,24 +1267,6 @@ function updateTehsils(district) {
     tsel.appendChild(opt);
   });
 }
-
-function updateUCs(tehsil) {
-  var usel = document.getElementById('f_uc');
-  usel.innerHTML = '<option value="">Select union council...</option>';
-  var ucs = UNION_COUNCILS[tehsil] || [];
-  if (ucs.length === 0) {
-    var opt = document.createElement('option');
-    opt.value = 'N/A'; opt.textContent = 'Not listed - type in village field';
-    usel.appendChild(opt);
-    return;
-  }
-  ucs.forEach(function(u) {
-    var opt = document.createElement('option');
-    opt.value = u; opt.textContent = u;
-    usel.appendChild(opt);
-  });
-}
-
 function toggleSame(cb) {
   var wa = document.getElementById('f_whatsapp');
   wa.disabled = cb.checked;
@@ -1355,7 +1337,6 @@ function resetForm() {
   document.getElementById('f_whatsapp').disabled = false;
   document.getElementById('f_district').innerHTML = '<option value="">Select district...</option>';
   document.getElementById('f_tehsil').innerHTML = '<option value="">Select tehsil...</option>';
-  document.getElementById('f_uc').innerHTML = '<option value="">Select union council...</option>';
   document.getElementById('regForm').style.display = 'block';
   document.getElementById('successBox').style.display = 'none';
   document.getElementById('formError').style.display = 'none';
